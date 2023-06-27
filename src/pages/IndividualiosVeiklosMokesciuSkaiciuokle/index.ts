@@ -1,0 +1,2 @@
+import IndividualiosVeiklosMokesciuSkaiciuokle from './IndividualiosVeiklosMokesciuSkaiciuokle';
+export default IndividualiosVeiklosMokesciuSkaiciuokle;
