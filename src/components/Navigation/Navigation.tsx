@@ -1,35 +1,25 @@
-import { Link } from 'react-router-dom';
-import { PAGES } from '../../types/pages';
-import { StyledNavigation } from './style';
+import MenuIcon from '../MenuIcon';
+import NavigationDesktop from '../NavigationDesktop';
+import NavigationMobile from '../NavigationMobile';
+import { useState } from 'react';
 
 const Navigation = () => {
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const handleMenuIconClick = () => {
+    setMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <StyledNavigation>
-      <ul>
-        <li>
-          <Link to={'/'}>Pagrindinis</Link>
-        </li>
-        <li>
-          <Link to={'/' + PAGES.AtlyginimoIrMokesciuSkaiciuokle}>
-            Atlyginimo ir mokėsčių skaičiuoklė
-          </Link>
-        </li>
-        <li>
-          <Link to={'/' + PAGES.IndividualiosVeiklosMokesciuSkaiciuokle}>
-            Individualios veiklos mokėsčių skaičiuoklė
-          </Link>
-        </li>
-        <li>
-          <Link to={'/' + PAGES.PVMSkaiciuokle}>PVM skaičiuoklė</Link>
-        </li>
-        <li>
-          <Link to={'/' + PAGES.ValiutuSkaiciuokle}>Valiutų skaičiuoklė</Link>
-        </li>
-        <li>
-          <Link to={'/' + PAGES.SumaZodziais}>Suma žodžiais</Link>
-        </li>
-      </ul>
-    </StyledNavigation>
+    <>
+      {/* <NavigationMobile /> */}
+      {isMenuOpen && <NavigationMobile setMenuOpen={setMenuOpen} />}
+      <MenuIcon
+        onClick={handleMenuIconClick}
+        className={`fa-solid fa-${!isMenuOpen ? 'bars' : 'xmark'}`}
+      />
+      <NavigationDesktop />
+    </>
   );
 };
 
