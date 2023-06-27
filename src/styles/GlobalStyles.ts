@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
     :root {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family: 'Comfortaa', cursive;
     }
 
     * {
@@ -15,6 +15,29 @@ const GlobalStyles = createGlobalStyle`
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    #root {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    header {
+        flex: 0 0 auto;
+    }
+
+    main {
+        flex: 1 0 auto;
+    }
+    
+    footer {
+        flex: 0 0 auto;
+    }
+
+    section {
+        width: 100%;
+        height: 100%;
     }
 `;
 
