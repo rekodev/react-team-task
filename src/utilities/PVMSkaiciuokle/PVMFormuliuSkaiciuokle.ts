@@ -1,23 +1,11 @@
-import { ICalculateSumTotalFn } from './types';
+import { ITaxProps } from "./types";
 
-export const calculateSumTotal: ICalculateSumTotalFn = (
-  taxRateOption,
-  sumNoTax,
-  setSumTotal
-) => {
-  let taxResult;
-  switch (taxRateOption) {
-    case 21:
-      taxResult = (sumNoTax * 21) / 100;
-      setSumTotal((sumNoTax + taxResult).toFixed(2));
-      break;
-    case 9:
-      taxResult = (sumNoTax * 9) / 100;
-      setSumTotal((sumNoTax + taxResult).toFixed(1));
-      break;
-    case 5:
-      taxResult = (sumNoTax * 5) / 100;
-      setSumTotal((sumNoTax + taxResult).toFixed(2));
-      break;
-  }
+
+export const calculateTax = ({ sumNoTax, taxRate }: ITaxProps) => {
+  return (sumNoTax * taxRate) / 100;
+};
+
+export const calculateSumWithTax = ({ sumNoTax, taxRate }: ITaxProps) => {
+  const taxAmount: number = calculateTax({ sumNoTax, taxRate });
+  return (sumNoTax + taxAmount).toFixed(2);
 };

@@ -1,7 +1,4 @@
-export interface ICalculateSumTotalFn {
-  (
-    taxRateOption: number,
-    sumNoTax: number,
-    setSumTotal: React.Dispatch<React.SetStateAction<number>>
-  ): void;
+export interface ITaxProps {
+  sumNoTax: number;
+  taxRate: number;
 }
