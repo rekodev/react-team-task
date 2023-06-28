@@ -5,23 +5,31 @@ export const StyledHomePageCard = styled.div`
   height: 253px;
   width: 191px;
 
-  a {
-    width: 100%;
+  .card-content {
     height: 100%;
+    width: 100%;
+  }
+
+  a {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
+    width: 100%;
     text-align: center;
-    font-size: 1.5rem;
-    text-decoration: none;
-    padding: 0 1.5rem;
     color: #000;
-    transition: all 0.2s ease-in-out;
+  }
 
-    &:hover {
-      color: turquoise;
-      background-color: #fafafa;
-      box-shadow: -5px 5px 12.5px -2.5px lightgray;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #fafafa;
+    box-shadow: -5px 5px 12.5px -2.5px lightgray;
+    cursor: pointer;
+
+    a {
+      color: #485fc7;
+      transition: color 0.2s ease-in-out;
     }
   }
 `;

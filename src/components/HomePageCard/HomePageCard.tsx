@@ -9,8 +9,10 @@ interface IHomePageCardProps {
 
 const HomePageCard = ({ text, path }: IHomePageCardProps) => {
   return (
-    <StyledHomePageCard>
-      <Link to={'/' + path}>{text}</Link>
+    <StyledHomePageCard className='card'>
+      <div className='card-content'>
+        <Link to={'/' + path}>{text}</Link>
+      </div>
     </StyledHomePageCard>
   );
 };
