@@ -31,6 +31,8 @@ interface IInputProps {
     | 'month'
     | 'image';
   disabled?: boolean;
+  value?: string | number | readonly string[] | undefined;
+  onChange?: (e: any) => void;
 }
 
 const Input = ({
@@ -40,6 +42,8 @@ const Input = ({
   label,
   labelText,
   id,
+  value,
+  onChange,
 }: IInputProps) => {
   return (
     <StyledInput>
@@ -50,6 +54,8 @@ const Input = ({
         placeholder={placeholder ? placeholder : ''}
         className='input'
         disabled={disabled ? true : false}
+        value={value}
+        onChange={onChange}
       />
     </StyledInput>
   );
