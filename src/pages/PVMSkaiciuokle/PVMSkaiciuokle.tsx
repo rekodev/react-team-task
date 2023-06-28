@@ -1,7 +1,7 @@
 import { StyledPVMSkaiciuokle } from './style';
 
 const PVMSkaiciuokle = () => {
-  return <StyledPVMSkaiciuokle>PVMSkaiciuokle</StyledPVMSkaiciuokle>;
+  return <StyledPVMSkaiciuokle></StyledPVMSkaiciuokle>;
 };
 
 export default PVMSkaiciuokle;

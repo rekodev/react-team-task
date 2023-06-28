@@ -1,9 +1,7 @@
 import { StyledValiutuSkaiciuokle } from './style';
 
 const ValiutuSkaiciuokle = () => {
-  return (
-    <StyledValiutuSkaiciuokle>ValiutuSkaiciuokle</StyledValiutuSkaiciuokle>
-  );
+  return <StyledValiutuSkaiciuokle>Currency exchange</StyledValiutuSkaiciuokle>;
 };
 
 export default ValiutuSkaiciuokle;
