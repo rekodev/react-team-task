@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import {
   StyledAtlyginimoMokesciuSkaiciuokle,
-  StyledAtlyginimoMokesciuSkaiciuokleContainer,
-  StyledAtlyginimoMokesciuSkaiciuokleSubContainer,
+  StyledSectionContainer,
+  StyledBox,
+  StyledBoxLeft,
+  StyledBoxRight,
   FormWrapper,
   ResultWrapper,
 } from './style';
@@ -65,75 +67,78 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
 
   return (
     <StyledAtlyginimoMokesciuSkaiciuokle>
-      <StyledAtlyginimoMokesciuSkaiciuokleContainer>
+      <StyledSectionContainer>
         <h1>Atlyginimo ir mokesčių skaičiuoklė</h1>
-        <StyledAtlyginimoMokesciuSkaiciuokleSubContainer>
-          <FormWrapper onSubmit={handleSubmit}>
-            <label htmlFor='grossSalary'>Atlyginimas:</label>
-            <label>
-              <input
-                type='radio'
-                value='Ant popieriaus'
-                checked={salaryType === 'Ant popieriaus'}
-                onChange={(e) => setSalaryType(e.target.value)}
-              />
-              Ant popieriaus
-            </label>
-            <label>
-              <input
-                type='radio'
-                value='Į rankas'
-                checked={salaryType === 'Į rankas'}
-                onChange={(e) => setSalaryType(e.target.value)}
-              />
-              Į rankas
-            </label>
-            {salaryType === 'Ant popieriaus' ? (
-              <>
-                <label htmlFor='grossSalary'>Ant popieriaus:</label>
+        <StyledBox>
+          <StyledBoxLeft>
+            <FormWrapper onSubmit={handleSubmit}>
+              <label htmlFor='grossSalary'>Atlyginimas:</label>
+              <label>
                 <input
-                  id='grossSalary'
-                  type='number'
-                  value={grossSalary}
-                  onChange={(e) => setGrossSalary(Number(e.target.value))}
+                  type='radio'
+                  value='Ant popieriaus'
+                  checked={salaryType === 'Ant popieriaus'}
+                  onChange={(e) => setSalaryType(e.target.value)}
                 />
-              </>
-            ) : (
-              <>
-                <label htmlFor='grossSalary'>Į rankas:</label>
+                Ant popieriaus
+              </label>
+              <label>
                 <input
-                  id='grossSalary'
-                  type='number'
-                  value={grossSalary}
-                  onChange={(e) => setGrossSalary(Number(e.target.value))}
+                  type='radio'
+                  value='Į rankas'
+                  checked={salaryType === 'Į rankas'}
+                  onChange={(e) => setSalaryType(e.target.value)}
                 />
-              </>
-            )}
+                Į rankas
+              </label>
+              {salaryType === 'Ant popieriaus' ? (
+                <>
+                  <label htmlFor='grossSalary'>Ant popieriaus:</label>
+                  <input
+                    id='grossSalary'
+                    type='number'
+                    value={grossSalary}
+                    onChange={(e) => setGrossSalary(Number(e.target.value))}
+                  />
+                </>
+              ) : (
+                <>
+                  <label htmlFor='grossSalary'>Į rankas:</label>
+                  <input
+                    id='grossSalary'
+                    type='number'
+                    value={grossSalary}
+                    onChange={(e) => setGrossSalary(Number(e.target.value))}
+                  />
+                </>
+              )}
 
-            <button type='submit'>Calculate</button>
-          </FormWrapper>
-
-          <ResultWrapper>
-            <p>Pritaikytas NPD {result.npd.toFixed(2)} €</p>
-            <p>Pajamų mokestis 20 % {result.incomeTax.toFixed(2)} €</p>
-            <p>
-              Sodra. Sveikatos draudimas 6.98 %{' '}
-              {result.healthInsuranceTax.toFixed(2)} €
-            </p>
-            <p>
-              Sodra. Pensijų ir soc. draudimas 12.52 %{' '}
-              {result.pensionAndSocialSecurityTax.toFixed(2)}€
-            </p>
-            <p>
-              Išmokamas atlyginimas "į rankas" {result.netoSalary.toFixed(2)}€
-            </p>
-            <p>Sodra 1.77 %: {result.sodraTax.toFixed(2)}€</p>
-            <p>
-              Visa darbo vietos kaina {result.fullCostOfWorkplace.toFixed(2)}€
-            </p>
-          </ResultWrapper>
-        </StyledAtlyginimoMokesciuSkaiciuokleSubContainer>
-      </StyledAtlyginimoMokesciuSkaiciuokleContainer>
+              <button type='submit'>Calculate</button>
+            </FormWrapper>
+          </StyledBoxLeft>
+          <StyledBoxRight>
+            <ResultWrapper>
+              <p>Pritaikytas NPD {result.npd.toFixed(2)} €</p>
+              <p>Pajamų mokestis 20 % {result.incomeTax.toFixed(2)} €</p>
+              <p>
+                Sodra. Sveikatos draudimas 6.98 %{' '}
+                {result.healthInsuranceTax.toFixed(2)} €
+              </p>
+              <p>
+                Sodra. Pensijų ir soc. draudimas 12.52 %{' '}
+                {result.pensionAndSocialSecurityTax.toFixed(2)}€
+              </p>
+              <p>
+                Išmokamas atlyginimas "į rankas" {result.netoSalary.toFixed(2)}€
+              </p>
+              <p>Sodra 1.77 %: {result.sodraTax.toFixed(2)}€</p>
+              <p>
+                Visa darbo vietos kaina {result.fullCostOfWorkplace.toFixed(2)}€
+              </p>
+            </ResultWrapper>
+          </StyledBoxRight>
+        </StyledBox>
+      </StyledSectionContainer>
     </StyledAtlyginimoMokesciuSkaiciuokle>
   );
 };
