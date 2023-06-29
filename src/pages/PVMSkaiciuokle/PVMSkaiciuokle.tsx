@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import Input from '../../components/Input';
-import {
-  StyledPVMSkaiciuokle,
-  StyledPVMSkaiciuokleContainer,
-  StyledPVMSkaiciuokleSubContainer,
-} from './style';
+import { StyledPVMSkaiciuokle } from './style';
 
 import 'bulma/css/bulma.css';
 import Select from '../../components/Select';
+import {
+  StyledBox,
+  StyledBoxLeft,
+  StyledBoxRight,
+  StyledSectionContainer,
+} from '../../styles/UtilityStyles';
 
 const PVMSkaiciuokle = () => {
   const [pvmTarifas, setPvmTarifas] = useState(0.21);
@@ -101,10 +103,10 @@ const PVMSkaiciuokle = () => {
 
   return (
     <StyledPVMSkaiciuokle>
-      <StyledPVMSkaiciuokleContainer>
+      <StyledSectionContainer>
         <h1>PVM Skaičiuoklė</h1>
-        <StyledPVMSkaiciuokleSubContainer>
-          <div className='left'>
+        <StyledBox>
+          <StyledBoxLeft>
             <div className='select-wrapper'>
               <p>PVM Tarifas</p>
               <div className='select'>
@@ -124,8 +126,8 @@ const PVMSkaiciuokle = () => {
               value={sumaBePvm}
               onChange={handleSumaBePVMChange}
             />
-          </div>
-          <div className='right'>
+          </StyledBoxLeft>
+          <StyledBoxRight>
             <Input
               label
               labelText='PVM suma'
@@ -142,9 +144,9 @@ const PVMSkaiciuokle = () => {
               onChange={handleBendraSumaSuPVMChange}
               value={bendraSumaSuPvm}
             />
-          </div>
-        </StyledPVMSkaiciuokleSubContainer>
-      </StyledPVMSkaiciuokleContainer>
+          </StyledBoxRight>
+        </StyledBox>
+      </StyledSectionContainer>
     </StyledPVMSkaiciuokle>
   );
 };
