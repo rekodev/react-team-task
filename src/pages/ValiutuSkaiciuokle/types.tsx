@@ -1,7 +1,7 @@
-export interface CurrencyData {
+export interface IDataObject {
   [currencyCode: string]: number;
 }
 
-export interface DataObject {
-  data: CurrencyData;
+export interface ICurrencyProps {
+  data: IDataObject;
 }
