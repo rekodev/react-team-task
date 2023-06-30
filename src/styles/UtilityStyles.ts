@@ -49,7 +49,7 @@ export const StyledBox = styled.div<IStyledBox>`
   /* border-radius: 0 15px 15px 0; */
   /* } */
 
-  @media screen and (max-width: ${BREAKPOINTS.LargeMobile}) {
+  @media screen and (max-width: ${BREAKPOINTS.Tablet}) {
     align-items: center;
     flex-direction: column;
 
@@ -80,7 +80,7 @@ export const StyledBoxLeft = styled.div<IStyledBox>`
   border-radius: ${(props) =>
     props.column ? '15px 15px 0 0' : '15px 0 0 15px'};
 
-  @media screen and (max-width: ${BREAKPOINTS.LargeMobile}) {
+  @media screen and (max-width: ${BREAKPOINTS.Tablet}) {
     width: 100%;
     border-radius: 15px 15px 0 0;
   }
@@ -99,7 +99,7 @@ export const StyledBoxRight = styled.div<IStyledBox>`
   border-radius: ${(props) =>
     props.column ? '15px 15px 0 0' : '0 15px 15px 0'};
 
-  @media screen and (max-width: ${BREAKPOINTS.LargeMobile}) {
+  @media screen and (max-width: ${BREAKPOINTS.Tablet}) {
     width: 100%;
     border-radius: 0 0 15px 15px;
   }
