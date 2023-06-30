@@ -70,7 +70,7 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
       <StyledSectionContainer>
         <h1>Atlyginimo ir mokesčių skaičiuoklė</h1>
         <StyledBox>
-          <StyledBoxLeft>
+          <StyledBoxLeft className='box-left'>
             <FormWrapper onSubmit={handleSubmit}>
               <label htmlFor='grossSalary'>Atlyginimas:</label>
               <label>
@@ -116,7 +116,7 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
               <button type='submit'>Calculate</button>
             </FormWrapper>
           </StyledBoxLeft>
-          <StyledBoxRight>
+          <StyledBoxRight className='box-right'>
             <ResultWrapper>
               <p>Pritaikytas NPD {result.npd.toFixed(2)} €</p>
               <p>Pajamų mokestis 20 % {result.incomeTax.toFixed(2)} €</p>
