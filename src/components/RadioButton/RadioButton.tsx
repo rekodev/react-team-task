@@ -22,7 +22,13 @@ const RadioButton = ({
       <div className='control'>
         {options.map((option, index) => (
           <label className='radio' key={index}>
-            <input type='radio' name={name} value={value} onChange={onChange} />
+            <input
+              type='radio'
+              name={name}
+              value={value}
+              onChange={onChange}
+              checked={option === value || (index === 0 && value === undefined)}
+            />
             {option}
           </label>
         ))}

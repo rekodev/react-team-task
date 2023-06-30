@@ -2,21 +2,33 @@ import { useEffect, useState } from 'react';
 import Checkbox from '../../components/Checkbox';
 import Input from '../../components/Input/Input';
 import RadioButton from '../../components/RadioButton/RadioButton';
-import { StyledIndividualiosVeiklosMokesciuSkaiciuokle } from './style';
+import {
+  StyledBox,
+  StyledBoxLeft,
+  StyledBoxRight,
+  StyledSectionContainer,
+} from '../../styles/UtilityStyles';
+import {
+  StyledIndividualiosVeiklosMokesciuSkaiciuokle,
+  StyledResultsRow,
+} from './style';
 
 const IndividualiosVeiklosMokesciuSkaiciuokle = () => {
   const [gautosPajamos, setGautosPajamos] = useState('');
   const [patirtosSanaudos, setPatirtosSanaudos] = useState('');
-  const [additionalPension, setAdditionalPension] = useState(false);
+  const [additionalPension, setAdditionalPension] = useState(true);
   const [apmokestinamosPajamos, setApmokestinamosPajamos] = useState('');
   const [VSD, setVSD] = useState('');
   const [PSD, setPSD] = useState('');
   const [GPM, setGPM] = useState('');
+  const [VSDPercent, setVSDPercent] = useState('12.52%');
   const [GPMPercent, setGPMPercent] = useState('5%');
   const [finalIncome, setFinalIncome] = useState('');
   const [finalTaxes, setFinalTaxes] = useState('');
   const [taxPercent, setTaxPercent] = useState('');
-  const [selectedOption, setSelectedOption] = useState('Faktiškai patirtos');
+
+  const options = ['  Faktiškai patirtos', '  30% nuo pajamų'];
+  const [selectedOption, setSelectedOption] = useState(options[0]);
 
   const handleGautosPajamosChange = (e: any) => {
     const inputValue = e.target.value;
@@ -44,24 +56,26 @@ const IndividualiosVeiklosMokesciuSkaiciuokle = () => {
 
   const handleAdditionalPensionChange = () => {
     setAdditionalPension((prev) => !prev);
+
+    if (VSDPercent === '12.52%') setVSDPercent('15.52%');
+    else setVSDPercent('12.52%');
   };
 
   const handleOptionChange = () => {
-    if (selectedOption === 'Faktiškai patirtos') {
-      setSelectedOption('30% nuo pajamų');
+    if (selectedOption === '  Faktiškai patirtos') {
+      setSelectedOption('  30% nuo pajamų');
       const sanaudos = parseFloat(gautosPajamos) * 0.3;
       setPatirtosSanaudos(sanaudos.toFixed(2).toString());
     } else {
-      setSelectedOption('Faktiškai patirtos');
+      setSelectedOption('  Faktiškai patirtos');
     }
   };
+
   const calculateApmokestinamosPajamos = () => {
     const income = parseFloat(gautosPajamos) || 0;
     const expenses = parseFloat(patirtosSanaudos) || 0;
     const profit = income - expenses;
-    const apmokestinamosPajamosValue = additionalPension
-      ? profit * 0.8245
-      : profit * 0.7975;
+    const apmokestinamosPajamosValue = profit * 0.9;
     setApmokestinamosPajamos(apmokestinamosPajamosValue.toFixed(2).toString());
   };
 
@@ -133,7 +147,12 @@ const IndividualiosVeiklosMokesciuSkaiciuokle = () => {
 
     setFinalIncome(finalProfit.toFixed(2).toString());
     setFinalTaxes(finalAllTaxes.toFixed(2).toString());
-    setTaxPercent(finalTaxPercent.toFixed(2).toString());
+
+    if (!isNaN(finalTaxPercent)) {
+      setTaxPercent(finalTaxPercent.toFixed(2).toString());
+    } else {
+      setTaxPercent('0,00');
+    }
   };
 
   useEffect(() => {
@@ -154,91 +173,107 @@ const IndividualiosVeiklosMokesciuSkaiciuokle = () => {
 
   return (
     <StyledIndividualiosVeiklosMokesciuSkaiciuokle>
-      <h1>Idividualios veiklos mokesčių skaičiuoklė</h1>
-      <section>
-        <Input
-          label={true}
-          labelText='Gautos pajamos'
-          id='gautos-pajamos'
-          type='text'
-          value={gautosPajamos}
-          onChange={handleGautosPajamosChange}
-        />
-        <Input
-          label={true}
-          labelText='Patirtos sąnaudos'
-          id='patirtos-sanaudos'
-          type='text'
-          value={patirtosSanaudos}
-          onChange={handlePatirtosSanaudosChange}
-        />
+      <StyledSectionContainer>
+        <h1>Individualios veiklos mokesčių skaičiuoklė</h1>
+        <StyledBox>
+          <StyledBoxLeft className='box-left'>
+            <Input
+              label={true}
+              labelText='Gautos pajamos'
+              id='gautos-pajamos'
+              type='text'
+              value={gautosPajamos}
+              onChange={handleGautosPajamosChange}
+            />
+            <Input
+              label={true}
+              labelText='Patirtos sąnaudos'
+              id='patirtos-sanaudos'
+              type='text'
+              value={patirtosSanaudos}
+              onChange={handlePatirtosSanaudosChange}
+            />
 
-        <Input
-          label={true}
-          labelText='Sumokėtas VSD'
-          id='sumoketas-vsd'
-          type='text'
-          onChange={calculateVSDAmount}
-        />
+            <Input
+              label={true}
+              labelText='Sumokėtas VSD'
+              id='sumoketas-vsd'
+              type='text'
+              onChange={calculateVSDAmount}
+            />
 
-        <Input
-          label={true}
-          labelText='Sumokėtas PSD'
-          id='sumoketas-psd'
-          type='text'
-          onChange={calculatePSDAmount}
-        />
+            <Input
+              label={true}
+              labelText='Sumokėtas PSD'
+              id='sumoketas-psd'
+              type='text'
+              onChange={calculatePSDAmount}
+            />
 
-        <RadioButton
-          label='Sąnaudų skaičiavimas'
-          name='yourGroupName'
-          options={['Faktiškai patirtos', '30% nuo pajamų']}
-          value={selectedOption}
-          onChange={handleOptionChange}
-        />
-        <Checkbox
-          text={'Kaupiu pensijai papildomai'}
-          onChange={handleAdditionalPensionChange}
-          checked={!additionalPension}
-        />
-      </section>
+            <RadioButton
+              label='Sąnaudų skaičiavimas'
+              name='yourGroupName'
+              options={options}
+              value={selectedOption}
+              onChange={handleOptionChange}
+            />
+            <Checkbox
+              text={'Kaupiu pensijai papildomai'}
+              onChange={handleAdditionalPensionChange}
+              checked={!additionalPension}
+            />
+          </StyledBoxLeft>
 
-      <section>
-        <div>
-          <div>Pajamos</div>
-          <div>{!gautosPajamos ? '0' : gautosPajamos}</div>
-        </div>
+          <StyledBoxRight className='box-right'>
+            <StyledResultsRow>
+              <div>Pajamos</div>
+              <div>{!gautosPajamos ? '0.00' : gautosPajamos}</div>
+            </StyledResultsRow>
 
-        <div>
-          <div>Sąnaudos</div>
-          <div>{!patirtosSanaudos ? '0' : patirtosSanaudos}</div>
-        </div>
+            <StyledResultsRow>
+              <div>Sąnaudos</div>
+              <div>{!patirtosSanaudos ? '0.00' : patirtosSanaudos}</div>
+            </StyledResultsRow>
 
-        <div>
-          <div>Apmokęstinamos pajamos</div>
-          <div>
-            {isNaN(apmokestinamosPajamos) ? '0' : apmokestinamosPajamos}
-          </div>
-        </div>
+            <StyledResultsRow>
+              <div>Apmokęstinamos pajamos</div>
+              <div>
+                {!apmokestinamosPajamos ? '0.00' : apmokestinamosPajamos}
+              </div>
+            </StyledResultsRow>
 
-        <div>VSD</div>
-        <div>{VSD}</div>
+            <StyledResultsRow>
+              <div>VSD {VSDPercent}</div>
+              <div>{VSD}</div>
+            </StyledResultsRow>
 
-        <div>PSD</div>
-        <div>{PSD}</div>
+            <StyledResultsRow>
+              <div>PSD 6.98%</div>
+              <div>{PSD}</div>
+            </StyledResultsRow>
 
-        <div>GPM {GPMPercent}</div>
-        <div>{GPM}</div>
+            <StyledResultsRow>
+              <div>GPM {GPMPercent}</div>
+              <div>{GPM}</div>
+            </StyledResultsRow>
+            <hr />
+            <StyledResultsRow>
+              <div>Iš viso mokesčių: </div>
+              <div>{finalTaxes}</div>
+            </StyledResultsRow>
 
-        <div>Iš viso mokesčių: </div>
-        <div>{finalTaxes}</div>
+            <StyledResultsRow>
+              <div>Mokestinė našta</div>
+              <div> {!taxPercent ? '0,00' : taxPercent} %</div>
+            </StyledResultsRow>
 
-        <div>Mokestinė našta</div>
-        <div> {isNaN(taxPercent) ? '0' : taxPercent} %</div>
-
-        <div>Grynasis Pelnas</div>
-        <div>{finalIncome}</div>
-      </section>
+            <StyledResultsRow>
+              <div>Grynasis Pelnas</div>
+              <div>{finalIncome}</div>
+            </StyledResultsRow>
+          </StyledBoxRight>
+        </StyledBox>
+      </StyledSectionContainer>
     </StyledIndividualiosVeiklosMokesciuSkaiciuokle>
   );
 };
