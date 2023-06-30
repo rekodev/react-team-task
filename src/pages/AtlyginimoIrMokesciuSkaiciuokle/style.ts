@@ -1,8 +1,4 @@
 import styled from 'styled-components';
-import { BREAKPOINTS } from '../../types/breakpoints';
-interface IStyledBox {
-  column?: boolean;
-}
 
 export const StyledAtlyginimoMokesciuSkaiciuokle = styled.section`
   display: flex;
@@ -24,70 +20,32 @@ export const StyledAtlyginimoMokesciuSkaiciuokle = styled.section`
   }
 `;
 
-export const StyledSectionContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  max-width: 1000px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2.5625rem;
-  padding: 1rem;
-`;
-
-export const StyledBox = styled.div<IStyledBox>`
-  width: 100%;
-  display: flex;
-  flex-direction: ${(props) => (props.column ? 'column' : 'row')};
-  box-shadow: 0 0 15px -5px lightgray;
-  border-radius: 15px;
-`;
-
-export const StyledBoxLeft = styled.div<IStyledBox>`
-  height: ${(props) => (props.column ? '50%' : '100%')};
-  width: ${(props) => (props.column ? '100%' : '50%')};
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-
-  background-color: #f8f8f8;
-  border-radius: ${(props) =>
-    props.column ? '15px 15px 0 0' : '15px 0 0 15px'};
-
-  @media screen and (max-width: ${BREAKPOINTS.LargeMobile}) {
-    width: 100%;
-    border-radius: 15px 15px 0 0;
-  }
-`;
-
-export const StyledBoxRight = styled.div<IStyledBox>`
-  height: ${(props) => (props.column ? '50%' : '100%')};
-  width: ${(props) => (props.column ? '100%' : '50%')};
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-
-  border-radius: ${(props) =>
-    props.column ? '15px 15px 0 0' : '0 15px 15px 0'};
-
-  @media screen and (max-width: ${BREAKPOINTS.LargeMobile}) {
-    width: 100%;
-    border-radius: 0 0 15px 15px;
-  }
-`;
-
 export const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   justify-content: center;
-  align-items: center;
+  align-items: start;
+
+  label {
+    display: flex;
+    gap: 0.375rem;
+    align-items: center;
+  }
+  #additionalPensionRate {
+    justify-content: center;
+    padding-bottom: calc(0.5em - 1px);
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: calc(0.5em - 1px);
+    text-align: center;
+    border-color: #dbdbdb;
+    border-width: 1px;
+    color: #363636;
+    cursor: pointer;
+
+    border-radius: 4px;
+  }
 `;
 
 export const ResultWrapper = styled.div`
@@ -99,5 +57,14 @@ export const ResultWrapper = styled.div`
     font-size: 1em;
     font-weight: 400;
     line-height: 1.5;
+    border-top: 1px solid lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.375rem;
+  }
+
+  p:last-child {
+    border-bottom: 1px solid lightgray;
   }
 `;
