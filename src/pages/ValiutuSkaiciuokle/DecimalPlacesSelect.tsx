@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { StyledBoxRight } from '../../styles/UtilityStyles';
 
 interface IDecimalPlacesSelectProps {
   onChange?: (value: number) => void;
@@ -20,8 +21,8 @@ const DecimalPlacesSelect: React.FC<IDecimalPlacesSelectProps> = ({
   };
 
   return (
-    <div>
-      <h3>Skaičiai po kablelio</h3>
+    <StyledBoxRight>
+      <h5>Skaičiai po kablelio</h5>
       <select value={selectedValue} onChange={handleSelectChange}>
         {options.map((option) => (
           <option key={option} value={option}>
@@ -29,7 +30,7 @@ const DecimalPlacesSelect: React.FC<IDecimalPlacesSelectProps> = ({
           </option>
         ))}
       </select>
-    </div>
+    </StyledBoxRight>
   );
 };
 
