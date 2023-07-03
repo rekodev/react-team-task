@@ -18,13 +18,23 @@ import CurrencySelect from './CurrencySelect';
 import FullScreenLoader from '../../components/FullScreenLoader';
 import { ICurrencyProps } from './types';
 import DecimalPlacesSelect from './DecimalPlacesSelect';
+import HistoricalRates from './HistoricalRates';
+
+const ENDPOINT_LATEST_RATES_URI =
+  'https://api.freecurrencyapi.com/v1/latest?apikey=CXzykYmtN94nK6QnKbPkoKFo642PswLTpgafsLeW&currencies=USD%2CEUR%2CJPY%2CBGN%2CCZK%2CDKK%2CGBP%2CHUF%2CPLN%2CRON%2CSEK%2CCHF%2CISK%2CNOK%2CHRK%2CRUB%2CTRY%2CAUD%2CBRL%2CCAD%2CCNY%2CHKD%2CIDR%2CILS%2CINR%2CKRW%2CMXN%2CMYR%2CNZD%2CPHP%2CSGD%2CTHB%2CZAR&base_currency=EUR';
+
+const ENDPOINT_HISTORICAL_RATES_URI =
+  'https://api.freecurrencyapi.com/v1/historical?apikey=CXzykYmtN94nK6QnKbPkoKFo642PswLTpgafsLeW&currencies=EUR%2CUSD%2CJPY%2CBGN%2CCZK%2CDKK%2CGBP%2CHUF%2CPLN%2CRON%2CSEK%2CCHF%2CISK%2CNOK%2CHRK%2CRUB%2CTRY%2CAUD%2CBRL%2CCAD%2CCNY%2CHKD%2CIDR%2CILS%2CINR%2CKRW%2CMXN%2CMYR%2CNZD%2CPHP%2CSGD%2CTHB%2CZAR&date_from=2023-06-30T07%3A53%3A27.204Z&date_to=2023-07-02T07%3A53%3A27.205Z';
 
 const ValiutuSkaiciuokle = () => {
   const [conversion, setConversion] = useState<null | ICurrencyProps>(null);
   const [selectedDecimalPlaces, setSelectedDecimalPlaces] = useState<number>(0);
+  const [selectedDate, setSelectedDate] = useState('');
 
   useEffect(() => {
-    const ENDPOINT_URI = `https://api.freecurrencyapi.com/v1/latest?apikey=CXzykYmtN94nK6QnKbPkoKFo642PswLTpgafsLeW&currencies=USD%2CEUR%2CJPY%2CBGN%2CCZK%2CDKK%2CGBP%2CHUF%2CPLN%2CRON%2CSEK%2CCHF%2CISK%2CNOK%2CHRK%2CRUB%2CTRY%2CAUD%2CBRL%2CCAD%2CCNY%2CHKD%2CIDR%2CILS%2CINR%2CKRW%2CMXN%2CMYR%2CNZD%2CPHP%2CSGD%2CTHB%2CZAR&base_currency=EUR`;
+    const ENDPOINT_URI = selectedDate
+      ? ENDPOINT_HISTORICAL_RATES_URI
+      : ENDPOINT_LATEST_RATES_URI;
 
     const fetchedCurrencies = async () => {
       const data: ICurrencyProps = await (await fetch(ENDPOINT_URI)).json();
@@ -106,13 +116,28 @@ const ValiutuSkaiciuokle = () => {
     }
   }, []);
 
+  const handleAddCurrency = (currency) => {
+    setConversion((prevConversion) => {
+      if (prevConversion && prevConversion.data) {
+        return {
+          data: {
+            ...prevConversion.data,
+            [currency]: 0,
+          },
+        };
+      }
+      return prevConversion;
+    });
+  };
+
   return (
     <StyledValiutuSkaiciuokle>
       <StyledSectionContainer>
         <h1>Valiutų Skaičiuoklė</h1>
         <StyledBox>
           <StyledBoxRight>
-            <CurrencySelect />
+            <HistoricalRates onDateSelect={setSelectedDate} />
+            <CurrencySelect onAddCurrency={handleAddCurrency} />
             <DecimalPlacesSelect onChange={setSelectedDecimalPlaces} />
           </StyledBoxRight>
           <StyledBoxRight>

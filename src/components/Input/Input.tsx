@@ -29,7 +29,8 @@ interface IInputProps {
     | 'range'
     | 'datetime-local'
     | 'month'
-    | 'image';
+    | 'image'
+    | 'date';
   disabled?: boolean;
   value?: string | number | readonly string[] | undefined;
   onChange?: (e: any) => void;
