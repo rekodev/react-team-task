@@ -18,6 +18,14 @@ export const StyledIndividualiosVeiklosMokesciuSkaiciuokle = styled.div`
     align-items: flex-start;
     padding-left: 0;
   }
+
+  .checkbox {
+    color: #4a4a4a;
+  }
+
+  .radio input {
+    margin-right: 13px;
+  }
 `;
 
 export const StyledResultsRow = styled.div`

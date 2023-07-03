@@ -27,136 +27,112 @@ const IndividualiosVeiklosMokesciuSkaiciuokle = () => {
   const [finalTaxes, setFinalTaxes] = useState('');
   const [taxPercent, setTaxPercent] = useState('');
 
-  const options = ['  Faktiškai patirtos', '  30% nuo pajamų'];
+  const options = ['Faktiškai patirtos', '30% nuo pajamų'];
   const [selectedOption, setSelectedOption] = useState(options[0]);
 
   const handleGautosPajamosChange = (e: any) => {
     const inputValue = e.target.value;
-    if (!isNaN(parseFloat(inputValue))) {
-      setGautosPajamos(inputValue);
-    } else {
-      setGautosPajamos('');
+    setGautosPajamos(!isNaN(parseFloat(inputValue)) ? inputValue : '');
+  };
+
+  const calculatePatirtosSanaudos = () => {
+    if (selectedOption === options[1]) {
+      const sanaudos = parseFloat(gautosPajamos) * 0.3;
+      setPatirtosSanaudos(
+        isNaN(sanaudos) ? '' : sanaudos.toFixed(2).toString()
+      );
     }
   };
 
   const handlePatirtosSanaudosChange = (e: any) => {
     const inputValue = e.target.value;
-
-    if (selectedOption === '30% nuo pajamų') {
-      const sanaudos = parseFloat(gautosPajamos) * 0.3;
-      setPatirtosSanaudos(sanaudos.toString());
-    } else {
-      if (!isNaN(parseFloat(inputValue))) {
-        setPatirtosSanaudos(e.target.value);
-      } else {
-        setPatirtosSanaudos('');
-      }
-    }
+    selectedOption === options[1]
+      ? calculatePatirtosSanaudos()
+      : !isNaN(parseFloat(inputValue))
+      ? setPatirtosSanaudos(inputValue)
+      : setPatirtosSanaudos('');
   };
 
   const handleAdditionalPensionChange = () => {
     setAdditionalPension((prev) => !prev);
-
-    if (VSDPercent === '12.52%') setVSDPercent('15.52%');
-    else setVSDPercent('12.52%');
+    setVSDPercent(VSDPercent === '12.52%' ? '15.52%' : '12.52%');
   };
 
   const handleOptionChange = () => {
-    if (selectedOption === '  Faktiškai patirtos') {
-      setSelectedOption('  30% nuo pajamų');
-      const sanaudos = parseFloat(gautosPajamos) * 0.3;
-      setPatirtosSanaudos(sanaudos.toFixed(2).toString());
-    } else {
-      setSelectedOption('  Faktiškai patirtos');
-    }
+    selectedOption === options[0]
+      ? (setSelectedOption(options[1]),
+        setPatirtosSanaudos(
+          (parseFloat(gautosPajamos) * 0.3).toFixed(2).toString()
+        ))
+      : setSelectedOption(options[0]);
   };
 
-  const calculateApmokestinamosPajamos = () => {
+  const calculateProfit = () => {
     const income = parseFloat(gautosPajamos) || 0;
     const expenses = parseFloat(patirtosSanaudos) || 0;
     const profit = income - expenses;
-    const apmokestinamosPajamosValue = profit * 0.9;
+    return profit;
+  };
+
+  const calculateApmokestinamosPajamos = () => {
+    const apmokestinamosPajamosValue = calculateProfit() * 0.9;
     setApmokestinamosPajamos(apmokestinamosPajamosValue.toFixed(2).toString());
   };
 
   const calculateVSDAmount = () => {
-    const income = parseFloat(gautosPajamos) || 0;
-    const expenses = parseFloat(patirtosSanaudos) || 0;
-    const profit = income - expenses;
     const vsdInput = document.getElementById(
       'sumoketas-vsd'
     ) as HTMLInputElement;
     const vsdValue = vsdInput ? parseFloat(vsdInput.value) || 0 : 0;
 
     const VSDAmount =
-      (additionalPension ? profit * 0.9 * 0.1552 : profit * 0.9 * 0.1252) -
-      vsdValue;
-
-    if (!isNaN(VSDAmount)) {
-      setVSD(VSDAmount.toFixed(2).toString());
-    } else {
-      setVSD('');
-    }
+      (!additionalPension
+        ? calculateProfit() * 0.9 * 0.1552
+        : calculateProfit() * 0.9 * 0.1252) - vsdValue;
+    setVSD(!isNaN(VSDAmount) ? VSDAmount.toFixed(2).toString() : '');
   };
 
   const calculatePSDAmount = () => {
-    const income = parseFloat(gautosPajamos) || 0;
-    const expenses = parseFloat(patirtosSanaudos) || 0;
-    const profit = income - expenses;
     const PSDInput = document.getElementById(
       'sumoketas-psd'
     ) as HTMLInputElement;
     const psdValue = PSDInput ? parseFloat(PSDInput.value) || 0 : 0;
 
-    const PSDAmount = profit * 0.9 * 0.0698 - psdValue;
-
-    if (!isNaN(PSDAmount)) {
-      setPSD(PSDAmount.toFixed(2).toString());
-    } else {
-      setPSD('');
-    }
+    const PSDAmount = calculateProfit() * 0.9 * 0.0698 - psdValue;
+    setPSD(!isNaN(PSDAmount) ? PSDAmount.toFixed(2).toString() : '');
   };
 
   const calculateGPMAmount = () => {
-    const income = parseFloat(gautosPajamos) || 0;
-    const expenses = parseFloat(patirtosSanaudos) || 0;
-    const profit = income - expenses;
+    const profit = calculateProfit();
     const GPMAmount =
-      profit < 20000 ? profit * 0.9 * 0.05 : profit * 0.9 * 0.15;
+      calculateProfit() <= 20000 ? profit * 0.9 * 0.05 : profit * 0.9 * 0.15;
+    const GPMPercentage = profit <= 20000 ? '5%' : '15%';
 
-    const GPMPercentage = profit < 20000 ? '5%' : '15%';
     setGPMPercent(GPMPercentage);
-
-    if (!isNaN(GPMAmount)) {
-      setGPM(GPMAmount.toFixed(2).toString());
-    } else {
-      setGPM('');
-    }
+    setGPM(!isNaN(GPMAmount) ? GPMAmount.toFixed(2).toString() : '0.00');
   };
 
   const calculateFinalIncome = () => {
-    const income = parseFloat(gautosPajamos) || 0;
-    const expenses = parseFloat(patirtosSanaudos) || 0;
-    const profit = income - expenses;
+    const profit = calculateProfit();
     const finalProfit =
       profit - parseFloat(PSD) - parseFloat(VSD) - parseFloat(GPM);
-
     const finalAllTaxes = profit - finalProfit;
 
-    const finalTaxPercent = (finalAllTaxes / profit) * 100;
+    let finalTaxPercent =
+      profit >= 0
+        ? (finalAllTaxes / profit) * 100
+        : (Math.abs(finalAllTaxes) / profit) * 100;
 
     setFinalIncome(finalProfit.toFixed(2).toString());
     setFinalTaxes(finalAllTaxes.toFixed(2).toString());
-
-    if (!isNaN(finalTaxPercent)) {
-      setTaxPercent(finalTaxPercent.toFixed(2).toString());
-    } else {
-      setTaxPercent('0,00');
-    }
+    setTaxPercent(
+      !isNaN(finalTaxPercent) ? finalTaxPercent.toFixed(2).toString() : '0.00'
+    );
   };
 
   useEffect(() => {
     calculateApmokestinamosPajamos();
+    calculatePatirtosSanaudos();
     calculateVSDAmount();
     calculatePSDAmount();
     calculateGPMAmount();
@@ -227,39 +203,39 @@ const IndividualiosVeiklosMokesciuSkaiciuokle = () => {
           <StyledBoxRight className='box-right'>
             <StyledResultsRow>
               <div>Pajamos</div>
-              <div>{!gautosPajamos ? '0.00' : gautosPajamos}</div>
+              <div>{!gautosPajamos ? '0.00' : gautosPajamos} €</div>
             </StyledResultsRow>
 
             <StyledResultsRow>
               <div>Sąnaudos</div>
-              <div>{!patirtosSanaudos ? '0.00' : patirtosSanaudos}</div>
+              <div>{!patirtosSanaudos ? '0.00' : patirtosSanaudos} €</div>
             </StyledResultsRow>
 
             <StyledResultsRow>
               <div>Apmokęstinamos pajamos</div>
               <div>
-                {!apmokestinamosPajamos ? '0.00' : apmokestinamosPajamos}
+                {!apmokestinamosPajamos ? '0.00' : apmokestinamosPajamos} €
               </div>
             </StyledResultsRow>
 
             <StyledResultsRow>
               <div>VSD {VSDPercent}</div>
-              <div>{VSD}</div>
+              <div>{VSD} €</div>
             </StyledResultsRow>
 
             <StyledResultsRow>
               <div>PSD 6.98%</div>
-              <div>{PSD}</div>
+              <div>{PSD} €</div>
             </StyledResultsRow>
 
             <StyledResultsRow>
               <div>GPM {GPMPercent}</div>
-              <div>{GPM}</div>
+              <div>{GPM} €</div>
             </StyledResultsRow>
             <hr />
             <StyledResultsRow>
               <div>Iš viso mokesčių: </div>
-              <div>{finalTaxes}</div>
+              <div>{finalTaxes} €</div>
             </StyledResultsRow>
 
             <StyledResultsRow>
@@ -269,7 +245,7 @@ const IndividualiosVeiklosMokesciuSkaiciuokle = () => {
 
             <StyledResultsRow>
               <div>Grynasis Pelnas</div>
-              <div>{finalIncome}</div>
+              <div>{finalIncome} €</div>
             </StyledResultsRow>
           </StyledBoxRight>
         </StyledBox>
