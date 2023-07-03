@@ -18,8 +18,8 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
     incomeTax: 0,
     healthInsuranceTax: 0,
     pensionAndSocialSecurityTax: 0,
-    netoSalary: 0,
-    brutoSalary: 0,
+    netSalaryTemp: 0,
+    grossSalaryTemp: 0,
     sodraTax: 0,
     fullCostOfWorkplace: 0,
     npd: 0,
@@ -43,34 +43,80 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
 
     return 0; // default return value if none of the conditions are met
   };
+  const calculateGrossFromNet = (
+    netSalary: number,
+    incomeTaxRate: number,
+    healthInsuranceTaxRate: number,
+    pensionAndSocialSecurityTaxRate: number,
+    additionalPensionRate: number
+  ) => {
+    let grossSalary = netSalary;
+    let lastGrossSalary;
+
+    // Iterate until grossSalary converges to a stable value
+    while (lastGrossSalary !== grossSalary) {
+      lastGrossSalary = grossSalary;
+
+      const npd = calculateNPD(grossSalary);
+      const taxable = grossSalary - npd;
+
+      const incomeTax = taxable * incomeTaxRate;
+      const healthInsuranceTax = grossSalary * healthInsuranceTaxRate;
+      const pensionAndSocialSecurityTax =
+        grossSalary * (pensionAndSocialSecurityTaxRate + additionalPensionRate);
+
+      grossSalary =
+        netSalary +
+        incomeTax +
+        healthInsuranceTax +
+        pensionAndSocialSecurityTax;
+    }
+
+    return grossSalary;
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const npd = calculateNPD(grossSalary); // Calculate NPD using the function
-    const incomeTax = (grossSalary - npd) * 0.2;
-    const healthInsuranceTax = grossSalary * 0.0698;
-    const pensionAndSocialSecurityTax = isSavingAdditionalPension
-      ? grossSalary * (0.1252 + 0.03) // if the user is saving an additional pension
-      : grossSalary * 0.1252; // if the user is not saving an additional pension
-    const sodraTax = grossSalary * 0.0177;
 
-    const netoSalary = isSavingAdditionalPension
-      ? grossSalary -
+    let netSalaryTemp;
+    let grossSalaryTemp;
+    const additionalPensionRate = isSavingAdditionalPension ? 0.03 : 0;
+
+    if (salaryType === 'Į rankas') {
+      netSalaryTemp = grossSalary;
+      grossSalaryTemp = calculateGrossFromNet(
+        netSalaryTemp,
+        0.2,
+        0.0698,
+        0.1252,
+        additionalPensionRate
+      );
+    } else {
+      grossSalaryTemp = grossSalary;
+      netSalaryTemp = 0; // To be calculated
+    }
+
+    const npd = calculateNPD(grossSalaryTemp); // Calculate NPD using the function
+    const incomeTax = (grossSalaryTemp - npd) * 0.2;
+    const healthInsuranceTax = grossSalaryTemp * 0.0698;
+    const pensionAndSocialSecurityTax =
+      grossSalaryTemp * (0.1252 + additionalPensionRate);
+
+    if (salaryType !== 'Į rankas') {
+      netSalaryTemp =
+        grossSalaryTemp -
         incomeTax -
         healthInsuranceTax -
-        pensionAndSocialSecurityTax // if the user is saving an additional pension
-      : grossSalary -
-        incomeTax -
-        healthInsuranceTax -
-        pensionAndSocialSecurityTax; // if the user is not saving an additional pension
+        pensionAndSocialSecurityTax;
+    }
 
-    const brutoSalary =
-      netoSalary + incomeTax + healthInsuranceTax + pensionAndSocialSecurityTax;
+    const sodraTax = grossSalaryTemp * 0.0177;
+
     const fullCostOfWorkplace =
       incomeTax +
       healthInsuranceTax +
       pensionAndSocialSecurityTax +
-      netoSalary +
+      netSalaryTemp +
       sodraTax;
 
     setResult({
@@ -78,8 +124,8 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
       healthInsuranceTax,
       pensionAndSocialSecurityTax,
       sodraTax,
-      netoSalary,
-      brutoSalary,
+      netSalaryTemp,
+      grossSalaryTemp,
       fullCostOfWorkplace,
       npd,
     });
@@ -167,6 +213,10 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
           <StyledBoxRight className='box-right'>
             <ResultWrapper>
               <p>
+                Priskaičiuotas atlyginimas "ant popieriaus"
+                <span>{result.grossSalaryTemp.toFixed(2)} €</span>
+              </p>
+              <p>
                 Pritaikytas NPD <span>{result.npd.toFixed(2)} €</span>
               </p>
               <p>
@@ -181,9 +231,10 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
                 Sodra. Pensijų ir soc. draudimas 12.52 %{' '}
                 <span>{result.pensionAndSocialSecurityTax.toFixed(2)} €</span>
               </p>
+
               <p>
-                Išmokamas atlyginimas "į rankas"{' '}
-                <span>{result.netoSalary.toFixed(2)} €</span>
+                Išmokamas atlyginimas "į rankas"
+                <span>{result.netSalaryTemp.toFixed(2)} €</span>
               </p>
               <p>
                 Sodra 1.77 %: <span>{result.sodraTax.toFixed(2)} €</span>
