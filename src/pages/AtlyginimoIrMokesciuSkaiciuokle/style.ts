@@ -23,7 +23,7 @@ export const StyledAtlyginimoMokesciuSkaiciuokle = styled.section`
 export const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
   justify-content: center;
   align-items: start;
 
@@ -46,11 +46,17 @@ export const FormWrapper = styled.form`
 
     border-radius: 4px;
   }
+  .control-radio {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 `;
 
 export const ResultWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 
   p {
     color: #4a4a4a;
@@ -61,10 +67,11 @@ export const ResultWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 0.375rem;
+    padding-top: 1rem;
   }
 
   p:last-child {
     border-bottom: 1px solid lightgray;
+    padding-bottom: 1rem;
   }
 `;

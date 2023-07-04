@@ -138,25 +138,29 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
         <StyledBox>
           <StyledBoxLeft className='box-left'>
             <FormWrapper onSubmit={handleSubmit}>
-              <label htmlFor='grossSalary'>Atlyginimas:</label>
-              <label>
-                <input
-                  type='radio'
-                  value='Ant popieriaus'
-                  checked={salaryType === 'Ant popieriaus'}
-                  onChange={(e) => setSalaryType(e.target.value)}
-                />
-                "ant popieriaus"
-              </label>
-              <label>
-                <input
-                  type='radio'
-                  value='Į rankas'
-                  checked={salaryType === 'Į rankas'}
-                  onChange={(e) => setSalaryType(e.target.value)}
-                />
-                "į rankas"
-              </label>
+              <div className='control-radio'>
+                {' '}
+                <label htmlFor='grossSalary'>Atlyginimas:</label>
+                <label>
+                  <input
+                    type='radio'
+                    value='Ant popieriaus'
+                    checked={salaryType === 'Ant popieriaus'}
+                    onChange={(e) => setSalaryType(e.target.value)}
+                  />
+                  "ant popieriaus"
+                </label>
+                <label>
+                  <input
+                    type='radio'
+                    value='Į rankas'
+                    checked={salaryType === 'Į rankas'}
+                    onChange={(e) => setSalaryType(e.target.value)}
+                  />
+                  "į rankas"
+                </label>
+              </div>
+
               {salaryType === 'Ant popieriaus' ? (
                 <>
                   <Input
