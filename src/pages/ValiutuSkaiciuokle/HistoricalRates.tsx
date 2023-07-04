@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import Input from '../../components/Input';
 import { convertDateToCustomFormat } from '../../utilities/dateFormatting';
 
 interface IHistoricalRatesProps {
-  onDateSelect: (setSelectedDate: React.FC) => string[];
+  onDateSelect: (date: string) => void;
 }
 
 const HistoricalRates = ({ onDateSelect }: IHistoricalRatesProps) => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>('');
 
-  const handleDateInput = (e) => {
+  const handleDateInput = (e: ChangeEvent<HTMLInputElement>) => {
     const date = e.target.value;
     console.log(convertDateToCustomFormat(date));
     setSelectedDate(date);
