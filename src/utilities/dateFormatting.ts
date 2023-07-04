@@ -21,6 +21,6 @@ export const convertDateToCustomFormat = (dateString: string) => {
 };
 
 // Usage example
-const regularDate = '2023-6-30';
-const convertedDate = convertDateToCustomFormat(regularDate);
-console.log(convertedDate); // Output: 2023-06-30T07%3A63%3A27.205Z
+// const regularDate = '2023-6-30';
+// const convertedDate = convertDateToCustomFormat(regularDate);
+// console.log(convertedDate); // Output: 2023-06-30T07%3A63%3A27.205Z
