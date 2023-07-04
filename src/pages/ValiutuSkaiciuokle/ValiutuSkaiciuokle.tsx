@@ -1,25 +1,21 @@
 import { useEffect, useState } from 'react';
-import {
-  StyledButton,
-  StyledFlag,
-  StyledInputContainer,
-  StyledLabel,
-  StyledLabelFlagContainer,
-  StyledValiutuSkaiciuokle,
-} from './style';
-import Input from '../../components/Input';
+import { StyledValiutuSkaiciuokle } from './style';
+
 import {
   StyledBox,
   StyledBoxRight,
   StyledSectionContainer,
 } from '../../styles/UtilityStyles';
-// import useCurrencyConversion from './useCurrencyConversion';
+
 import CurrencySelect from './CurrencySelect';
 import FullScreenLoader from '../../components/FullScreenLoader';
 import { ICurrencyProps, IDataObject } from './types';
 import DecimalPlacesSelect from './DecimalPlacesSelect';
 import HistoricalRates from './HistoricalRates';
 import { convertDateToCustomFormat } from '../../utilities/dateFormatting';
+import H1 from '../../components/Heading';
+
+import CurrenciesList from './CurrenciesList';
 
 const ENDPOINT_LATEST_RATES_URI =
   'https://api.freecurrencyapi.com/v1/latest?apikey=CXzykYmtN94nK6QnKbPkoKFo642PswLTpgafsLeW&currencies=USD%2CEUR%2CJPY%2CBGN%2CCZK%2CDKK%2CGBP%2CHUF%2CPLN%2CRON%2CSEK%2CCHF%2CISK%2CNOK%2CHRK%2CRUB%2CTRY%2CAUD%2CBRL%2CCAD%2CCNY%2CHKD%2CIDR%2CILS%2CINR%2CKRW%2CMXN%2CMYR%2CNZD%2CPHP%2CSGD%2CTHB%2CZAR&base_currency=EUR';
@@ -76,27 +72,6 @@ const ValiutuSkaiciuokle = () => {
 
     fetchedCurrencies();
   }, [selectedDate]);
-
-  if (conversion) {
-    console.log(conversion, 'Conversion');
-  }
-
-  const [activeInput, setActiveInput] = useState({
-    id: '',
-    value: 0,
-    rawValue: '',
-  });
-
-  const formatValue = (value: number) => {
-    const fixedValue = value.toFixed(selectedDecimalPlaces);
-    return fixedValue.includes('.')
-      ? parseFloat(fixedValue).toString()
-      : fixedValue;
-  };
-
-  const getFlagURL = (currency: string) => {
-    return `https://wise.com/public-resources/assets/flags/rectangle/${currency.toLowerCase()}.png`;
-  };
 
   const handleRemoveCurrency = (currency: string) => {
     // Update the state to remove the currency
@@ -162,7 +137,7 @@ const ValiutuSkaiciuokle = () => {
   return (
     <StyledValiutuSkaiciuokle>
       <StyledSectionContainer>
-        <h1>Valiutų Skaičiuoklė</h1>
+        <H1 text='Valiutų Skaičiuoklė' />
         <StyledBox>
           <StyledBoxRight>
             <HistoricalRates onDateSelect={setSelectedDate} />
@@ -171,48 +146,11 @@ const ValiutuSkaiciuokle = () => {
           </StyledBoxRight>
           <StyledBoxRight>
             {conversion && conversion.data ? (
-              <ul>
-                {Object.entries(conversion.data).map(([currency, value]) => {
-                  const flagURL = getFlagURL(currency);
-                  return (
-                    <li key={currency}>
-                      <StyledInputContainer>
-                        <StyledButton
-                          onClick={() => handleRemoveCurrency(currency)}
-                        >
-                          <i className='fa-solid fa-minus'></i>
-                        </StyledButton>
-                        <Input
-                          id={currency}
-                          label
-                          labelText=''
-                          type='text'
-                          value={
-                            currency === activeInput.id
-                              ? activeInput.rawValue
-                              : formatValue(activeInput.value * value)
-                          }
-                          onChange={(e) =>
-                            setActiveInput({
-                              id: currency,
-                              value: e.target.value
-                                ? parseFloat(e.target.value)
-                                : 0,
-                              rawValue: e.target.value,
-                            })
-                          }
-                        />
-                        <StyledLabelFlagContainer>
-                          <StyledLabel htmlFor={currency}>
-                            {currency}
-                          </StyledLabel>
-                          <StyledFlag src={flagURL} alt={`${currency} flag`} />
-                        </StyledLabelFlagContainer>
-                      </StyledInputContainer>
-                    </li>
-                  );
-                })}
-              </ul>
+              <CurrenciesList
+                conversionData={conversion.data}
+                onRemove={handleRemoveCurrency}
+                decimalPlaces={selectedDecimalPlaces}
+              />
             ) : (
               <FullScreenLoader />
             )}

@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import Input from '../../components/Input';
 import { convertDateToCustomFormat } from '../../utilities/dateFormatting';
+import { StyledHistoricalInputContainer } from './style';
 
 interface IHistoricalRatesProps {
   onDateSelect: (date: string) => void;
@@ -16,7 +17,7 @@ const HistoricalRates = ({ onDateSelect }: IHistoricalRatesProps) => {
     onDateSelect(date);
   };
   return (
-    <div>
+    <StyledHistoricalInputContainer>
       <Input
         id='1'
         type='date'
@@ -25,7 +26,7 @@ const HistoricalRates = ({ onDateSelect }: IHistoricalRatesProps) => {
         labelText='Valiutos kurso data:'
         onChange={handleDateInput}
       />
-    </div>
+    </StyledHistoricalInputContainer>
   );
 };
 

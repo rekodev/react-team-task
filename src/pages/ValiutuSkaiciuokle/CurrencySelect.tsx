@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import {
   StyledCurrencySelectList,
   StyledButton,
@@ -9,7 +9,9 @@ import {
 } from './style';
 import Input from '../../components/Input';
 import useCurrencyConversion from './useCurrencyConversion';
-import { StyledBox } from '../../styles/UtilityStyles';
+import FullScreenLoader from '../../components/FullScreenLoader';
+
+import SVG from '../../../public/icons/down-arrow-svgrepo-com.svg';
 
 const CurrencySelect = ({ onAddCurrency }) => {
   const conversion = useCurrencyConversion();
@@ -50,58 +52,58 @@ const CurrencySelect = ({ onAddCurrency }) => {
 
   return (
     <StyledCurrencySelectList>
-      <StyledBox>
-        <h5>Pridėti valiutą</h5>
-        {conversion && conversion.data ? (
-          <div>
-            <select
-              value={selectedCurrency}
-              onChange={(e) => setSelectedCurrency(e.target.value)}
-            >
-              <option value=''>Pasirinkite valiutą</option>
-              {Object.entries(conversion.data).map(([currency]) => (
-                <option key={currency} value={currency}>
-                  {currency}
-                </option>
-              ))}
-            </select>
-            {selectedCurrency && (
-              <div>
-                <StyledInputContainer>
-                  <StyledButton onClick={() => setSelectedCurrency('')}>
-                    <i className='fa-solid fa-minus'></i>
-                  </StyledButton>
-                  <Input
-                    id={selectedCurrency}
-                    label
-                    type='text'
-                    value={
-                      selectedCurrency === activeInput.id
-                        ? activeInput.rawValue
-                        : formatValue(
-                            activeInput.value *
-                              conversion.data[selectedCurrency]
-                          )
-                    }
-                    onChange={handleInputChange}
+      <h5>Pridėti valiutą</h5>
+      {conversion && conversion.data ? (
+        <div>
+          <select
+            value={selectedCurrency}
+            onChange={(e) => setSelectedCurrency(e.target.value)}
+          >
+            {' '}
+            <option value=''>
+              Pasirinkite valiutą <img src={SVG} alt='' />
+            </option>
+            {Object.entries(conversion.data).map(([currency]) => (
+              <option key={currency} value={currency}>
+                {currency}
+              </option>
+            ))}
+          </select>
+          {selectedCurrency && (
+            <div>
+              <StyledInputContainer>
+                <StyledButton onClick={() => setSelectedCurrency('')}>
+                  <i className='fa-solid fa-minus'></i>
+                </StyledButton>
+                <Input
+                  id={selectedCurrency}
+                  label
+                  type='text'
+                  value={
+                    selectedCurrency === activeInput.id
+                      ? activeInput.rawValue
+                      : formatValue(
+                          activeInput.value * conversion.data[selectedCurrency]
+                        )
+                  }
+                  onChange={handleInputChange}
+                />
+                <StyledLabelFlagContainer>
+                  <StyledLabel htmlFor={selectedCurrency}>
+                    {selectedCurrency}
+                  </StyledLabel>
+                  <StyledFlag
+                    src={getFlagURL(selectedCurrency)}
+                    alt={`${selectedCurrency} flag`}
                   />
-                  <StyledLabelFlagContainer>
-                    <StyledLabel htmlFor={selectedCurrency}>
-                      {selectedCurrency}
-                    </StyledLabel>
-                    <StyledFlag
-                      src={getFlagURL(selectedCurrency)}
-                      alt={`${selectedCurrency} flag`}
-                    />
-                  </StyledLabelFlagContainer>
-                </StyledInputContainer>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div>Loading...</div>
-        )}
-      </StyledBox>
+                </StyledLabelFlagContainer>
+              </StyledInputContainer>
+            </div>
+          )}
+        </div>
+      ) : (
+        <FullScreenLoader />
+      )}
     </StyledCurrencySelectList>
   );
 };
