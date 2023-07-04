@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import {
   StyledFlag,
   StyledInputContainer,
@@ -33,6 +33,16 @@ const CurrenciesList = ({
     [onRemove]
   );
 
+  const handleCurrencyInput = (
+    e: ChangeEvent<HTMLInputElement>,
+    currency: string
+  ) =>
+    setActiveInput({
+      id: currency,
+      value: e.target.value ? parseFloat(e.target.value) : 0,
+      rawValue: e.target.value,
+    });
+
   return (
     <ul>
       {Object.entries(conversionData).map(([currency, value]) => {
@@ -52,18 +62,9 @@ const CurrenciesList = ({
                 value={
                   currency === activeInput.id
                     ? activeInput.rawValue
-                    : formatValue(
-                        activeInput.value * value,
-                        decimalPlaces
-                      )
+                    : formatValue(activeInput.value * value, decimalPlaces)
                 }
-                onChange={(e) =>
-                  setActiveInput({
-                    id: currency,
-                    value: e.target.value ? parseFloat(e.target.value) : 0,
-                    rawValue: e.target.value,
-                  })
-                }
+                onChange={(e) => handleCurrencyInput(e, currency)}
               />
               <StyledLabelFlagContainer>
                 <StyledLabel htmlFor={currency}>{currency}</StyledLabel>

@@ -8,7 +8,9 @@ interface IHistoricalRatesProps {
 }
 
 const HistoricalRates = ({ onDateSelect }: IHistoricalRatesProps) => {
-  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<string>(''); // duplicated state
+  // review decimalPlaces component and replace duplicate state.
+  // value can be received from the parent element.
 
   const handleDateInput = (e: ChangeEvent<HTMLInputElement>) => {
     const date = e.target.value;

@@ -23,7 +23,9 @@ const CurrencySelect = ({ onAddCurrency }) => {
   });
 
   const getFlagURL = (currency) => {
-    return `https://wise.com/public-resources/assets/flags/rectangle/${currency.toLowerCase()}.png`;
+    if (currency) {
+      return `https://wise.com/public-resources/assets/flags/rectangle/${currency.toLowerCase()}.png`;
+    }
   };
   useEffect(() => {
     if (selectedCurrency) {
@@ -49,7 +51,6 @@ const CurrencySelect = ({ onAddCurrency }) => {
       convertedValue: inputValue * conversionRate,
     });
   };
-
   return (
     <StyledCurrencySelectList>
       <h5>Pridėti valiutą</h5>
@@ -59,7 +60,6 @@ const CurrencySelect = ({ onAddCurrency }) => {
             value={selectedCurrency}
             onChange={(e) => setSelectedCurrency(e.target.value)}
           >
-            {' '}
             <option value=''>
               Pasirinkite valiutą <img src={SVG} alt='' />
             </option>

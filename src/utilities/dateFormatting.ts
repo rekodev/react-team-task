@@ -4,7 +4,6 @@ export const convertDateToCustomFormat = (dateString: string) => {
 
   // Format the time string with default values
   const timeString1 = '07%3A53%3A27.204Z';
-
   const timeString2 = '07%3A53%3A27.205Z';
 
   // Concatenate the date and time strings in the desired format
@@ -20,7 +19,6 @@ export const convertDateToCustomFormat = (dateString: string) => {
   return [convertedDate1, convertedDate2];
 };
 
-// Usage example
-// const regularDate = '2023-6-30';
-// const convertedDate = convertDateToCustomFormat(regularDate);
-// console.log(convertedDate); // Output: 2023-06-30T07%3A63%3A27.205Z
+
+
+
