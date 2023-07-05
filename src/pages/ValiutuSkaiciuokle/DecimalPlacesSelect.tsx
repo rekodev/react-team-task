@@ -3,6 +3,7 @@ import { StyledBoxRight } from '../../styles/UtilityStyles';
 
 import { DecimalPlaceOptions } from './helpers';
 import Select from '../../components/Select';
+import { StyledDecimalInputContainer } from './style';
 interface IDecimalPlacesSelectProps {
   onChange?: (value: number) => void;
 }
@@ -18,14 +19,18 @@ const DecimalPlacesSelect: React.FC<IDecimalPlacesSelectProps> = ({
   };
 
   return (
-    <StyledBoxRight>
-      <h5>Skaičiai po kablelio</h5>
-      <Select
-        id='decimalPlacesSelect'
-        options={DecimalPlaceOptions}
-        onChange={handleSelectChange}
-      />
-    </StyledBoxRight>
+    <StyledDecimalInputContainer>
+      <div className='select-wrapper'>
+        <h5>Skaičiai po kablelio</h5>
+        <div className='select'>
+          <Select
+            id='decimalPlacesSelect'
+            options={DecimalPlaceOptions}
+            onChange={handleSelectChange}
+          />
+        </div>
+      </div>
+    </StyledDecimalInputContainer>
   );
 };
 

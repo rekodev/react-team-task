@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { StyledValiutuSkaiciuokle } from './style';
 
 import {
@@ -26,47 +26,54 @@ const ValiutuSkaiciuokle = () => {
   const [selectedDecimalPlaces, setSelectedDecimalPlaces] = useState<number>(0);
   const [selectedDate, setSelectedDate] = useState('');
 
-  const convertData = (data: ICurrencyProps) => {
-    if (selectedDate) {
-      return data.data[selectedDate] as unknown as IDataObject;
-    } else {
-      return data.data as IDataObject;
-    }
-  };
+  const convertData = useCallback(
+    (data: ICurrencyProps, chosenDate: string) => {
+      if (chosenDate) {
+   
+        return data.data[chosenDate] as unknown as IDataObject;
+      } else {
+        return data.data as IDataObject;
+      }
+    },
+    []
+  );
 
-  const ENDPOINT_HISTORICAL_RATES_URI =
-    formatHistoricalEndpointString(selectedDate);
+  const fetchedCurrencies = useCallback(
+    async (chosenDate: string) => {
+      const ENDPOINT_HISTORICAL_RATES_URI =
+        formatHistoricalEndpointString(chosenDate);
+      const data: ICurrencyProps =
+        chosenDate === ''
+          ? await (await fetch(ENDPOINT_URI)).json()
+          : await (await fetch(ENDPOINT_HISTORICAL_RATES_URI)).json();
 
-  const fetchedCurrencies = async () => {
-    const data: ICurrencyProps =
-      selectedDate === ''
-        ? await (await fetch(ENDPOINT_URI)).json()
-        : await (await fetch(ENDPOINT_HISTORICAL_RATES_URI)).json();
+      const convertedData = convertData(data, chosenDate);
 
-    const convertedData = convertData(data);
+      console.log(convertedData, 'inside valiutuskaiciuokle');
+      const orderedData: ICurrencyProps = {
+        data: {
+          EUR: convertedData?.EUR,
+          ...convertedData,
+        },
+      };
 
-    const orderedData: ICurrencyProps = {
-      data: {
-        EUR: convertedData?.EUR,
-        ...convertedData,
-      },
-    };
+      setConversion(orderedData);
 
-    setConversion(orderedData);
       // instead of setting state  the hook should return orderedData
-  };
-
-
+    },
+    [convertData]
+  );
 
   const handleSetDate = (date: string) => {
+    console.log(date);
     setSelectedDate(date);
-    fetchedCurrencies();
+    fetchedCurrencies(date);
   };
 
   useEffect(() => {
     if (!conversion) {
-      // set conversion state with the data received from the hook 
-      fetchedCurrencies();
+      // set conversion state with the data received from the hook
+      fetchedCurrencies(selectedDate);
       return;
     }
   }, [conversion, convertData, fetchedCurrencies, selectedDate]);
