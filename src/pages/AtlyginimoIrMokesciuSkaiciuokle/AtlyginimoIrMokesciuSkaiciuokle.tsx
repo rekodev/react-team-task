@@ -168,7 +168,7 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
                     label
                     labelText='Ant popieriaus'
                     type='number'
-                    value={grossSalary}
+                    value={grossSalary === 0 ? '' : grossSalary}
                     onChange={(e) => setGrossSalary(Number(e.target.value))}
                   />
                 </>
@@ -179,7 +179,7 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
                     labelText='Į rankas'
                     id='grossSalary'
                     type='number'
-                    value={grossSalary}
+                    value={grossSalary === 0 ? '' : grossSalary}
                     onChange={(e) => setGrossSalary(Number(e.target.value))}
                   />
                 </>
