@@ -85,5 +85,33 @@ export const StyledHistoricalInputContainer = styled.div`
 
   input {
     width: 300px;
+
+    &::-webkit-calendar-picker-indicator {
+      filter: invert(40%);
+    }
+  }
+`;
+
+export const StyledDecimalInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 300px;
+
+  .select-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .select {
+    width: 100%;
+
+    select {
+      width: 100%;
+    }
   }
 `;
