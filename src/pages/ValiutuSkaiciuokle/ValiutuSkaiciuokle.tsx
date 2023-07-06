@@ -29,7 +29,6 @@ const ValiutuSkaiciuokle = () => {
   const convertData = useCallback(
     (data: ICurrencyProps, chosenDate: string) => {
       if (chosenDate) {
-   
         return data.data[chosenDate] as unknown as IDataObject;
       } else {
         return data.data as IDataObject;
@@ -125,12 +124,6 @@ const ValiutuSkaiciuokle = () => {
             )}
           </StyledBoxRight>
         </StyledBox>
-        <p>
-          Ši aplikacija naudoja naujausią valiutos kursą. <br />
-          Įveskite norimą sumą į laukelį ir ji bus konvertuojama. <br />
-          Jei norimos valiutos nėra pradiniame sąraše, pridėkite pasirinkdami iš
-          išsiskleidžiančio sąrašo.
-        </p>
       </StyledSectionContainer>
     </StyledValiutuSkaiciuokle>
   );
