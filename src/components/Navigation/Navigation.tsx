@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PAGES } from '../../types/pages';
 import { StyledNavigation } from './style';
+import logo from '../../assets/logo-no-background.svg';
 
 const Navigation = () => {
   const [isActive, setIsActive] = useState(false);
@@ -14,11 +15,7 @@ const Navigation = () => {
     >
       <div className='navbar-brand'>
         <Link className='navbar-item' to='/'>
-          <img
-            src='../src/assets/logo-no-background.svg'
-            width='112'
-            height='28'
-          />
+          <img src={logo} width='112' height='28' />
         </Link>
 
         <a
