@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { BREAKPOINTS } from '../../types/breakpoints';
 
 export const StyledPVMSkaiciuokle = styled.section`
   display: flex;

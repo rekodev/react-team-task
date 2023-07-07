@@ -3,7 +3,7 @@ import { StyledInput } from './style';
 
 interface IInputProps {
   label?: boolean;
-  labelText: string;
+  labelText?: string;
   id: string;
   placeholder?: string;
   type:
