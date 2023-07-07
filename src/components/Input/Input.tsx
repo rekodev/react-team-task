@@ -57,6 +57,7 @@ const Input = ({
         disabled={disabled ? true : false}
         value={value}
         onChange={onChange}
+        data-testid='grossSalary'
       />
     </StyledInput>
   );
