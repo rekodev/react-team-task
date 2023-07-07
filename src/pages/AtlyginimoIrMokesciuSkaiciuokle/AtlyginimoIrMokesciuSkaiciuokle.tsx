@@ -11,6 +11,7 @@ import {
   StyledSectionContainer,
 } from '../../styles/UtilityStyles';
 import Input from '../../components/Input';
+import RadioButton from '../../components/RadioButton';
 
 const AtlyginimoIrMokesciuSkaiciuokle = () => {
   const [grossSalary, setGrossSalary] = useState(0);
@@ -25,7 +26,7 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
     npd: 0,
   });
 
-  const [salaryType, setSalaryType] = useState('');
+  const [salaryType, setSalaryType] = useState('Į rankas');
   const [isSavingAdditionalPension, setIsSavingAdditionalPension] =
     useState(false);
   const [additionalPensionRate, setAdditionalPensionRate] = useState('');
@@ -140,27 +141,18 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
             <FormWrapper onSubmit={handleSubmit}>
               <div className='control-radio'>
                 {' '}
-                <label htmlFor='grossSalary'>Atlyginimas:</label>
-                <label>
-                  <input
-                    type='radio'
-                    value='Ant popieriaus'
-                    checked={salaryType === 'Ant popieriaus'}
-                    onChange={(e) => setSalaryType(e.target.value)}
-                  />
-                  "ant popieriaus"
-                </label>
-                <label>
-                  <input
-                    type='radio'
-                    value='Į rankas'
-                    checked={salaryType === 'Į rankas'}
-                    onChange={(e) => setSalaryType(e.target.value)}
-                  />
-                  "į rankas"
-                </label>
+                <RadioButton
+                  label='Atlyginimas:'
+                  name=''
+                  options={['Ant popieriaus', 'Į rankas']}
+                  value={salaryType}
+                  onChange={() =>
+                    setSalaryType(
+                      salaryType === 'Į rankas' ? 'Ant popieriaus' : 'Į rankas'
+                    )
+                  }
+                />
               </div>
-
               {salaryType === 'Ant popieriaus' ? (
                 <>
                   <Input
@@ -177,6 +169,7 @@ const AtlyginimoIrMokesciuSkaiciuokle = () => {
                   <Input
                     label
                     labelText='Į rankas'
+                    data-testid='grossSalary'
                     id='grossSalary'
                     type='number'
                     value={grossSalary === 0 ? '' : grossSalary}
