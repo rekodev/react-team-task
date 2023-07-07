@@ -1,12 +1,8 @@
 import React from 'react';
-import { StyledBoxRight } from '../../styles/UtilityStyles';
-
 import { DecimalPlaceOptions } from './helpers';
 import Select from '../../components/Select';
 import { StyledDecimalInputContainer } from './style';
-interface IDecimalPlacesSelectProps {
-  onChange?: (value: number) => void;
-}
+import { IDecimalPlacesSelectProps } from './types';
 
 const DecimalPlacesSelect: React.FC<IDecimalPlacesSelectProps> = ({
   onChange,
@@ -27,6 +23,7 @@ const DecimalPlacesSelect: React.FC<IDecimalPlacesSelectProps> = ({
             id='decimalPlacesSelect'
             options={DecimalPlaceOptions}
             onChange={handleSelectChange}
+      
           />
         </div>
       </div>
