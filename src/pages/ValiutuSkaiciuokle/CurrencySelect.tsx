@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import {
   StyledCurrencySelectList,
   StyledButton,
@@ -12,10 +12,7 @@ import useCurrencyConversion from './useCurrencyConversion';
 import FullScreenLoader from '../../components/FullScreenLoader';
 
 import SVG from '../../../public/icons/down-arrow-svgrepo-com.svg';
-
-interface ICurrencySelectProps {
-  onAddCurrency: (args: string) => void;
-}
+import { ICurrencySelectProps } from './types';
 
 const CurrencySelect = ({ onAddCurrency }: ICurrencySelectProps) => {
   const conversion = useCurrencyConversion();

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import {
   StyledFlag,
   StyledInputContainer,
@@ -8,13 +8,7 @@ import {
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import { getFlagURL, formatValue } from './helpers';
-import { IDataObject } from './types';
-
-interface ICurrenciesListProps {
-  decimalPlaces: number;
-  conversionData: IDataObject;
-  onRemove: (args: string) => void;
-}
+import { ICurrenciesListProps } from './types';
 
 const CurrenciesList = ({
   conversionData,
@@ -65,10 +59,10 @@ const CurrenciesList = ({
                     : formatValue(activeInput.value * value, decimalPlaces)
                 }
                 onChange={(e) => handleCurrencyInput(e, currency)}
+                data-testid='currency-input'
               />
               <StyledLabelFlagContainer>
                 <StyledLabel htmlFor={currency}>{currency}</StyledLabel>
-                {/* separate component */}
                 <StyledFlag src={flagURL} alt={`${currency} flag`} />
               </StyledLabelFlagContainer>
             </StyledInputContainer>
