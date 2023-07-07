@@ -14,7 +14,11 @@ const Navigation = () => {
     >
       <div className='navbar-brand'>
         <Link className='navbar-item' to='/'>
-          <img src='../public/logo-no-background.svg' width='112' height='28' />
+          <img
+            src='../src/assets/logo-no-background.svg'
+            width='112'
+            height='28'
+          />
         </Link>
 
         <a

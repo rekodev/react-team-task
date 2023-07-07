@@ -11,7 +11,7 @@ import Input from '../../components/Input';
 import useCurrencyConversion from './useCurrencyConversion';
 import FullScreenLoader from '../../components/FullScreenLoader';
 
-import SVG from '../../../public/icons/down-arrow-svgrepo-com.svg';
+import SVG from '../../assets/icons/down-arrow-svgrepo-com.svg';
 import { ICurrencySelectProps } from './types';
 
 const CurrencySelect = ({ onAddCurrency }: ICurrencySelectProps) => {
